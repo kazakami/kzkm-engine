@@ -8,11 +8,13 @@ using System.Collections.Generic;
 
 namespace KzkmEngine
 {
-    
 
     class Game:GameWindow
 	{
-		public Game():base(800, 600, GraphicsMode.Default, "test")
+		public WorkerManager workerManager;
+
+		public Game(int width, int height, string name)
+			:base(width, height, GraphicsMode.Default, name)
 		{
 			VSync = VSyncMode.On;
 		}
