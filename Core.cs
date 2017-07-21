@@ -11,7 +11,7 @@ namespace KzkmEngine
 
     class Game:GameWindow
 	{
-		public WorkerManager workerManager;
+		public WorkerManager workerManager = new WorkerManager();
 
 		public Game(int width, int height, string name)
 			:base(width, height, GraphicsMode.Default, name)
@@ -49,6 +49,8 @@ namespace KzkmEngine
 			{
 				this.Exit();
 			}
+
+			workerManager.Update();
 		}
 
 		//画面描画時に呼ばれる
@@ -62,18 +64,7 @@ namespace KzkmEngine
 			Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
 			GL.LoadMatrix(ref modelview);
 			
-			// GL.Begin(PrimitiveType.Quads);
-
-			// GL.Color4(Color4.White);							//色名で指定
-			// GL.Vertex3(-1.0f, 1.0f, 4.0f);
-			// GL.Color4(new float[] { 1.0f, 0.0f, 0.0f, 1.0f });	//配列で指定
-			// GL.Vertex3(-1.0f, -1.0f, 4.0f);
-			// GL.Color4(0.0f, 1.0f, 0.0f, 1.0f);					//4つの引数にfloat型で指定
-			// GL.Vertex3(1.0f, -1.0f, 4.0f);
-			// GL.Color4((byte)0, (byte)0, (byte)255, (byte)255);	//byte型で指定
-			// GL.Vertex3(1.0f, 1.0f, 4.0f);
-
-			// GL.End();
+			workerManager.Draw();
 
 			SwapBuffers();
 		}
