@@ -8,4 +8,7 @@ C#/OpenTKな感じのクロスプラットフォームなゲームエンジン(�
   
   <dt> FreeImage-dotnet-core </dt>
   <dd> dotnetcoreで利用できるFreeImageのクローン </dd>
+
+  <dt> System.Text.Encoding.CodePages </dt>
+  <dd> Shift JISを読み込む </dd>
 </dl>
