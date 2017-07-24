@@ -23,7 +23,42 @@ namespace KzkmEngine
 
         class Face
         {
-
+            public int verticesNum {get; private set;}
+            public List<int> vertexIndices {get; private set;} = new List<int>();
+            public List<Tuple<float, float>> uvCoords {get; private set;} = new List<Tuple<float, float>>();
+            //2頂点
+            public Face(int verticesNum, int vertexIndex1, int vertexIndex2, float uvCoord1x, float uvCoord1y, float uvCoord2x, float uvCoord2y)
+            {
+                this.verticesNum = verticesNum;
+                vertexIndices.Add(vertexIndex1);
+                vertexIndices.Add(vertexIndex2);
+                uvCoords.Add(new Tuple<float, float>(uvCoord1x, uvCoord1y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord2x, uvCoord2y));
+            }
+            //3頂点
+            public Face(int verticesNum, int vertexIndex1, int vertexIndex2, int vertexIndex3, float uvCoord1x, float uvCoord1y, float uvCoord2x, float uvCoord2y, float uvCoord3x, float uvCoord3y)
+            {
+                this.verticesNum = verticesNum;
+                vertexIndices.Add(vertexIndex1);
+                vertexIndices.Add(vertexIndex2);
+                vertexIndices.Add(vertexIndex3);
+                uvCoords.Add(new Tuple<float, float>(uvCoord1x, uvCoord1y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord2x, uvCoord2y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord3x, uvCoord3y));
+            }
+            //4頂点
+            public Face(int verticesNum, int vertexIndex1, int vertexIndex2, int vertexIndex3, int vertexIndex4, float uvCoord1x, float uvCoord1y, float uvCoord2x, float uvCoord2y, float uvCoord3x, float uvCoord3y, float uvCoord4x, float uvCoord4y)
+            {
+                this.verticesNum = verticesNum;
+                vertexIndices.Add(vertexIndex1);
+                vertexIndices.Add(vertexIndex2);
+                vertexIndices.Add(vertexIndex3);
+                vertexIndices.Add(vertexIndex4);
+                uvCoords.Add(new Tuple<float, float>(uvCoord1x, uvCoord1y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord2x, uvCoord2y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord3x, uvCoord3y));
+                uvCoords.Add(new Tuple<float, float>(uvCoord4x, uvCoord4y));
+            }
 
         }
 
@@ -198,6 +233,7 @@ namespace KzkmEngine
                                     float uvCoord1y = (faceMatch.Groups[5].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[5].ToString())) : 0.0f;
                                     float uvCoord2x = (faceMatch.Groups[6].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[6].ToString())) : 0.0f;
                                     float uvCoord2y = (faceMatch.Groups[7].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[7].ToString())) : 0.0f;
+                                    faces.Add(new Face(2, vertexIndex1, vertexIndex2, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y));
                                     // System.Console.WriteLine(source[i]);
                                     // System.Console.WriteLine("({0}, {1}) M({2}), UV({3}, {4}, {5}, {6})", vertexIndex1, vertexIndex2, materialIndex, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y);
                                 }
@@ -214,6 +250,7 @@ namespace KzkmEngine
                                     float uvCoord2y = (faceMatch.Groups[8].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[8].ToString())) : 0.0f;
                                     float uvCoord3x = (faceMatch.Groups[9].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[9].ToString())) : 0.0f;
                                     float uvCoord3y = (faceMatch.Groups[10].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[10].ToString())) : 0.0f;
+                                    faces.Add(new Face(3, vertexIndex1, vertexIndex2, vertexIndex3, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y, uvCoord3x, uvCoord3y));
                                     // System.Console.WriteLine(source[i]);
                                     // System.Console.WriteLine("({0}, {1}, {2}) M({3}), UV({4}, {5}, {6}, {7}, {8}, {9})", vertexIndex1, vertexIndex2, vertexIndex3, materialIndex, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y, uvCoord3x, uvCoord3y);
                                 }
@@ -233,6 +270,7 @@ namespace KzkmEngine
                                     float uvCoord3y = (faceMatch.Groups[11].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[11].ToString())) : 0.0f;
                                     float uvCoord4x = (faceMatch.Groups[12].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[12].ToString())) : 0.0f;
                                     float uvCoord4y = (faceMatch.Groups[13].ToString() != "") ? (Convert.ToSingle(faceMatch.Groups[13].ToString())) : 0.0f;
+                                    faces.Add(new Face(4, vertexIndex1, vertexIndex2, vertexIndex3, vertexIndex4, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y, uvCoord3x, uvCoord3y, uvCoord4x, uvCoord4y));
                                     // System.Console.WriteLine(source[i]);
                                     // System.Console.WriteLine("({0}, {1}, {2}, {3}) M({4}), UV({5}, {6}, {7}, {8}, {9}, {10}, {11}, {12})", vertexIndex1, vertexIndex2, vertexIndex3, vertexIndex4, materialIndex, uvCoord1x, uvCoord1y, uvCoord2x, uvCoord2y, uvCoord3x, uvCoord3y, uvCoord4x, uvCoord4y);
                                 }
