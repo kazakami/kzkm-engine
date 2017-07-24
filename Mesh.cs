@@ -160,6 +160,7 @@ namespace KzkmEngine
                             float spc = Convert.ToSingle(m.Groups[10].ToString());
                             float power = Convert.ToSingle(m.Groups[11].ToString());
                             string tex = m.Groups[12].ToString();
+                            System.Console.WriteLine("mat: {0} added", matName);
                             materials.Add(new Material(matName, shader, colR, colG, colB, colA, dif, amb, emi, spc, power, tex));
                             m = m.NextMatch();
                         }
@@ -174,17 +175,18 @@ namespace KzkmEngine
                     var vertices = new List<Vertex>();
                     var faces = new List<Face>();
                     string objName = objNameMatch.Groups[1].ToString();
-                    System.Console.WriteLine(objName);
+                    // System.Console.WriteLine(objName);
                     //オブジェクトの読み込みループ
                     while (i < sourceLinesNum - 1)
                     {
-                        i++;
+                        // System.Console.WriteLine(source[i]);
                         //オブジェクトの読み込み終了判定
                         if (Regex.IsMatch(source[i], @"\s*}\s*"))
                         {
-                            i++;
+                            // System.Console.WriteLine("objend");
                             break;
                         }
+                        i++;
                         //頂点の読み込み開始判定
                         if (Regex.IsMatch(source[i], @"\s*vertex\s+(\d+)\s*{"))
                         {
@@ -197,10 +199,11 @@ namespace KzkmEngine
                                 //頂点読み込み終了判定
                                 if (Regex.IsMatch(source[i], @"\s*}\s*"))
                                 {
+                                    // System.Console.WriteLine("vert end");
                                     i++;
                                     break;
                                 }
-                                var vertexCoordMatch = Regex.Match(source[i], @"\s*(-?\d+(?:\.\d*))\s+(-?\d+(?:\.\d*))\s+(-?\d+(?:\.\d*))\s*");
+                                var vertexCoordMatch = Regex.Match(source[i], @"\s*(-?\d+(?:\.\d*)?)\s+(-?\d+(?:\.\d*)?)\s+(-?\d+(?:\.\d*)?)\s*");
                                 float x = Convert.ToSingle(vertexCoordMatch.Groups[1].ToString());
                                 float y = Convert.ToSingle(vertexCoordMatch.Groups[2].ToString());
                                 float z = Convert.ToSingle(vertexCoordMatch.Groups[3].ToString());
@@ -219,6 +222,7 @@ namespace KzkmEngine
                                 //面の読み込み終了判定
                                 if (Regex.IsMatch(source[i], @"\s*}\s*"))
                                 {
+                                    // System.Console.WriteLine("face end");
                                     i++;
                                     break;
                                 }
@@ -282,8 +286,9 @@ namespace KzkmEngine
                                 }
                             }
                         }
-                        var obj = new Obj(vertices, faces);
                     }
+                    var obj = new Obj(vertices, faces);
+                    System.Console.WriteLine("obj {0} Added, n verts={1}, n faces={2}", objName, vertices.Count, faces.Count);
                 }
                 i++;
             }
