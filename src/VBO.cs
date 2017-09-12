@@ -1,0 +1,7 @@
+namespace KzkmEngine
+{
+    class VBO
+    {
+        
+    }
+}
