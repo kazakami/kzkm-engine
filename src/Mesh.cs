@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace KzkmEngine
 {
-    class Mesh
+    public class Mesh
     {
         class Vertex
         {

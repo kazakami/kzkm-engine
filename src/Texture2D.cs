@@ -4,7 +4,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace KzkmEngine
 {
-    class Texture2D
+    public class Texture2D
     {
         float[,,] data = null;
         public int Width { get; private set; } = 0;

@@ -2,7 +2,7 @@ using OpenTK;
 
 namespace KzkmEngine
 {
-    class Camera : Worker
+    public class Camera : Worker
     {
         public Vector3 eye { get; private set; } = new Vector3(10, 10, 10);
         public Vector3 target { get; private set; } = new Vector3(0, 0, 0);

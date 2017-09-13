@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace KzkmEngine
 {
-    class Shader
+    public class Shader
     {
         int vertexShader = 0;
         int fragmentShader = 0;

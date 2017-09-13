@@ -7,7 +7,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace KzkmEngine
 {
-    static class Utility
+    public static class Utility
     {
         static System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
         static long oldTime = 0;

@@ -1,7 +1,7 @@
 
 namespace KzkmEngine
 {
-    abstract class Worker
+    public abstract class Worker
     {
         public bool isAlive {get; private set;} = true;
         public int priority {get; private set;} = 0;

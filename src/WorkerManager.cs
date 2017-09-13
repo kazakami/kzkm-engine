@@ -4,7 +4,7 @@ using OpenTK;
 
 namespace KzkmEngine
 {
-    class WorkerManager
+    public class WorkerManager
     {
         //Workerを保持する
         private List<Worker> workers = new List<Worker>();

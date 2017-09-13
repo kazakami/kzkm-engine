@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace KzkmEngine
 {
 
-    class Game:GameWindow
+    public class Game:GameWindow
 	{
 		public WorkerManager workerManager = new WorkerManager();
 
