@@ -95,8 +95,8 @@ namespace KzkmEngine
         }
         public class Obj
         {
-            List<Vertex> vertices;
-            List<Face> faces;
+            public List<Vertex> vertices {get; private set;}
+            public List<Face> faces {get; private set;}
             public Obj(List<Vertex> vertices, List<Face> faces)
             {
                 this.vertices = vertices;
