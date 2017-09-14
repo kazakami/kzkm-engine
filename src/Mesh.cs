@@ -8,7 +8,7 @@ namespace KzkmEngine
 {
     public class Mesh
     {
-        class Vertex
+        public class Vertex
         {
             public float x {get; private set;}
             public float y {get; private set;}
@@ -21,7 +21,7 @@ namespace KzkmEngine
             }
         }
 
-        class Face
+        public class Face
         {
             public int verticesNum {get; private set;}
             public List<int> vertexIndices {get; private set;} = new List<int>();
@@ -62,7 +62,7 @@ namespace KzkmEngine
 
         }
 
-        class Material
+        public class Material
         {
             public string name {get; private set;}
             public int shader {get; private set;}
@@ -93,7 +93,7 @@ namespace KzkmEngine
                 this.tex = tex;
             }
         }
-        class Obj
+        public class Obj
         {
             List<Vertex> vertices;
             List<Face> faces;
@@ -105,7 +105,8 @@ namespace KzkmEngine
 
         }
 
-        List<Material> materials = new List<Material>();
+        public List<Material> materials {get; private set;} = new List<Material>();
+        public List<Obj> objs {get; private set;} = new List<Obj>();
 
         public void LoadFromMQO(string filename)
         {
@@ -126,6 +127,7 @@ namespace KzkmEngine
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw e;
             }
 
             int sourceLinesNum = source.Count;
@@ -288,6 +290,7 @@ namespace KzkmEngine
                         }
                     }
                     var obj = new Obj(vertices, faces);
+                    objs.Add(obj);
                     System.Console.WriteLine("obj {0} Added, n verts={1}, n faces={2}", objName, vertices.Count, faces.Count);
                 }
                 i++;
