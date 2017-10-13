@@ -63,5 +63,13 @@ namespace KzkmEngine
                 GL.End();
             }
         }
+
+        public static string CutEndSpace(string str)
+        {
+            if (str.EndsWith(" "))
+                return CutEndSpace(str.Substring(0, str.Length - 1));
+            else
+                return str;
+        }
     }
 }
