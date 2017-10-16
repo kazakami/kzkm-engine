@@ -108,6 +108,50 @@ namespace KzkmEngine
         public List<Material> materials {get; private set;} = new List<Material>();
         public List<Obj> objs {get; private set;} = new List<Obj>();
 
+
+        public void LoadFromObj(string filename)
+        {
+            var source = new List<string>();
+            
+            try
+            {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                using (var sr = new StreamReader(new FileStream(filename, FileMode.Open), Encoding.GetEncoding("Shift-JIS")))
+                {
+                    string line = "";
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        source.Add(line);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw e;
+            }
+            int sourceLinesNum = source.Count;
+            int i = 0;
+            while (i < sourceLinesNum)
+            {
+                string line = Utility.CutEndSpace(source[i]);
+                while (line.EndsWith("\\"))
+                {
+                    i++;
+                    line = line.Substring(0, line.Length - 1) + " ";
+                    line += source[i];
+                    line = Utility.CutEndSpace(line);
+                }
+                //System.Console.WriteLine(line.Split(' ')[0]);
+                System.Console.WriteLine(line);
+
+
+                
+                i++;
+            }
+        }
+
+
         public void LoadFromMQO(string filename)
         {
             var source = new List<string>();
