@@ -1,7 +1,13 @@
+using OpenTK.Graphics.OpenGL;
+
 namespace KzkmEngine
 {
-    class VBO
+    public class VBO
     {
-        
+        public uint buffer {get; private set;}
+        public VBO()
+        {
+
+        }
     }
 }
