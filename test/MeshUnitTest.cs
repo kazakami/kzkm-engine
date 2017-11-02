@@ -32,5 +32,20 @@ namespace test
             //box.mqoの面数は6
             Assert.Equal(6, m.objs[0].faces.Count);
         }
+        [Fact(DisplayName = "objが複数あるmqoファイルの読み込みのテスト")]
+        public void MeshTest3()
+        {
+            var m = new Mesh();
+            //実行時のカレントディレクトリは bin/Debug/netcoreapp1.1
+            m.LoadFromMQO("../../../resources/boxs.mqo");
+            //boxs.mqoのオブジェクト数は2
+            Assert.Equal(2, m.objs.Count);
+            //boxs.mqoのマテリアル数は2
+            Assert.Equal(2, m.materials.Count);
+            //boxs.mqoの頂点数は8
+            Assert.Equal(8, m.objs[1].vertices.Count);
+            //boxs.mqoの面数は6
+            Assert.Equal(6, m.objs[1].faces.Count);
+        }
     }
 }
