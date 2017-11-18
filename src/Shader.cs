@@ -117,7 +117,7 @@ namespace KzkmEngine
             //コンパイル結果をチェック
             if (status == 0)
             {
-                throw new ApplicationException(GL.GetShaderInfoLog(vertexShader));
+                throw new Exception(GL.GetShaderInfoLog(vertexShader));
             }
         }
 
@@ -151,7 +151,7 @@ namespace KzkmEngine
             //コンパイル結果をチェック
             if (status == 0)
             {
-                throw new ApplicationException(GL.GetShaderInfoLog(fragmentShader));
+                throw new Exception(GL.GetShaderInfoLog(fragmentShader));
             }
         }
 
