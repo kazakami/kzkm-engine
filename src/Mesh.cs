@@ -23,6 +23,7 @@ namespace KzkmEngine
 
         public class Face
         {
+            //頂点数
             public int verticesNum {get; private set;}
             public List<int> vertexIndices {get; private set;} = new List<int>();
             public List<Tuple<float, float>> uvCoords {get; private set;} = new List<Tuple<float, float>>();
@@ -132,23 +133,76 @@ namespace KzkmEngine
             }
             int sourceLinesNum = source.Count;
             int i = 0;
+            var vertices = new List<Vertex>();
+            var faces = new List<Face>();
             while (i < sourceLinesNum)
             {
-                string line = Utility.CutEndSpace(source[i]);
+                string line = source[i].Split('#')[0];
+                line = Utility.CutEndSpace(line);
                 while (line.EndsWith("\\"))
                 {
                     i++;
                     line = line.Substring(0, line.Length - 1) + " ";
                     line += source[i];
+                    line = line.Split('#')[0];
                     line = Utility.CutEndSpace(line);
                 }
+                if (line == "")
+                {
+                    i++;
+                    continue;
+                }
                 //System.Console.WriteLine(line.Split(' ')[0]);
-                System.Console.WriteLine(line);
+                //System.Console.WriteLine(line);
+                switch (line.Split(' ')[0])
+                {
+                    case "v":
+                    {
+                        var m = Regex.Match(line, @"\s*v\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))(?:\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)))?");
+                        if (m.Success)
+                        {
+                            float x = Convert.ToSingle(m.Groups[1].ToString());
+                            float y = Convert.ToSingle(m.Groups[2].ToString());
+                            float z = Convert.ToSingle(m.Groups[3].ToString());
+                            System.Console.WriteLine("v {0}, {1}, {2}", x, y, z);
+                            vertices.Add(new Vertex(x, y, z));
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("not match");
+                        }
+                        break;
+                    }
+                    case "f":
+                    {
+                        var m = Regex.Match(line, @"\s*f\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))");
+                        if (m.Success){
+                            int index1 = Convert.ToInt32(m.Groups[1].ToString());
+                            int index2 = Convert.ToInt32(m.Groups[2].ToString());
+                            int index3 = Convert.ToInt32(m.Groups[3].ToString());
+                            int index4 = Convert.ToInt32(m.Groups[4].ToString());
+                            System.Console.WriteLine("f {0}, {1}, {2}, {3}", index1, index2, index3, index4);
+                            faces.Add(new Face(4, index1, index2, index3, index4, 0, 0, 0, 0, 0, 0, 0, 0));
+                        }
+                        else
+                        {
+                            System.Console.WriteLine("not match");
+                        }
+                        break;
+                    }
+                    case "vn":
+                    {
 
-
-                
+                        break;
+                    }
+                    default:
+                    {
+                        break;
+                    }
+                }
                 i++;
             }
+            objs.Add(new Obj(vertices, faces));
         }
 
 
