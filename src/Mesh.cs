@@ -137,6 +137,7 @@ namespace KzkmEngine
             var faces = new List<Face>();
             while (i < sourceLinesNum)
             {
+                //コメントと改行("\")を考慮した一行を変数lineとして取り出す
                 string line = source[i].Split('#')[0];
                 line = Utility.CutEndSpace(line);
                 while (line.EndsWith("\\"))
@@ -152,10 +153,21 @@ namespace KzkmEngine
                     i++;
                     continue;
                 }
-                //System.Console.WriteLine(line.Split(' ')[0]);
-                //System.Console.WriteLine(line);
+                //スペースで区切られた最初のトークンをみる
                 switch (line.Split(' ')[0])
                 {
+                    case "g":
+                    {
+                        //既に面か頂点を読み込んでいるなら現状を保存して、新たにリストを用意
+                        if (faces.Count != 0 || vertices.Count != 0)
+                        {
+                            objs.Add(new Obj(vertices, faces));
+                            vertices = new List<Vertex>();
+                            faces = new List<Face>();
+
+                        }
+                        break;
+                    }
                     case "v":
                     {
                         var m = Regex.Match(line, @"\s*v\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))(?:\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)))?");
@@ -164,7 +176,7 @@ namespace KzkmEngine
                             float x = Convert.ToSingle(m.Groups[1].ToString());
                             float y = Convert.ToSingle(m.Groups[2].ToString());
                             float z = Convert.ToSingle(m.Groups[3].ToString());
-                            System.Console.WriteLine("v {0}, {1}, {2}", x, y, z);
+                            //System.Console.WriteLine("v {0}, {1}, {2}", x, y, z);
                             vertices.Add(new Vertex(x, y, z));
                         }
                         else
@@ -181,7 +193,7 @@ namespace KzkmEngine
                             int index2 = Convert.ToInt32(m.Groups[2].ToString());
                             int index3 = Convert.ToInt32(m.Groups[3].ToString());
                             int index4 = Convert.ToInt32(m.Groups[4].ToString());
-                            System.Console.WriteLine("f {0}, {1}, {2}, {3}", index1, index2, index3, index4);
+                            //System.Console.WriteLine("f {0}, {1}, {2}, {3}", index1, index2, index3, index4);
                             faces.Add(new Face(4, index1, index2, index3, index4, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
                         else
@@ -202,6 +214,7 @@ namespace KzkmEngine
                 }
                 i++;
             }
+            //ファイルの読み込みが終わったら現在読み込んでる頂点と面を保存
             objs.Add(new Obj(vertices, faces));
         }
 
