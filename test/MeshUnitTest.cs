@@ -52,7 +52,7 @@ namespace test
         {
             var m = new Mesh();
             //実行時のカレントディレクトリは bin/Debug/netcoreapp1.1
-            m.LoadFromObj("../../../resouces/box.obj");
+            m.LoadFromObj("../../../resources/box.obj");
             //box.objのオブジェクト数は1
             Assert.Equal(1, m.objs.Count);
             //box.objのマテリアル数は0
