@@ -98,10 +98,12 @@ namespace KzkmEngine
         {
             public List<Vertex> vertices {get; private set;}
             public List<Face> faces {get; private set;}
-            public Obj(List<Vertex> vertices, List<Face> faces)
+            public string name {get; private set;}
+            public Obj(List<Vertex> vertices, List<Face> faces, string name = "")
             {
                 this.vertices = vertices;
                 this.faces = faces;
+                this.name = name;
             }
 
         }
@@ -164,13 +166,12 @@ namespace KzkmEngine
                             objs.Add(new Obj(vertices, faces));
                             vertices = new List<Vertex>();
                             faces = new List<Face>();
-
                         }
                         break;
                     }
                     case "v":
                     {
-                        var m = Regex.Match(line, @"\s*v\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?))(?:\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)))?");
+                        var m = Regex.Match(line, @"\s*v\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)(?:\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?))?");
                         if (m.Success)
                         {
                             float x = Convert.ToSingle(m.Groups[1].ToString());
@@ -181,7 +182,7 @@ namespace KzkmEngine
                         }
                         else
                         {
-                            System.Console.WriteLine("not match");
+                            System.Console.WriteLine("not match in v");
                         }
                         break;
                     }
@@ -198,7 +199,7 @@ namespace KzkmEngine
                         }
                         else
                         {
-                            System.Console.WriteLine("not match");
+                            System.Console.WriteLine("not match in f");
                         }
                         break;
                     }
@@ -209,6 +210,7 @@ namespace KzkmEngine
                     }
                     default:
                     {
+                        System.Console.WriteLine("Not Implemented!!");
                         break;
                     }
                 }
