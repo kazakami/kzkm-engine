@@ -62,5 +62,22 @@ namespace test
             //boxs.mqoの面数は6
             Assert.Equal(6, m.objs[0].faces.Count);
         }
+        [Fact(DisplayName = "複数メッシュのobjファイルの読み込みテスト")]
+        public void MeshTest5()
+        {
+            var m = new Mesh();
+            //実行時のカレントディレクトリは bin/Debug/netcoreapp1.1
+            m.LoadFromObj("../../../resources/boxs.obj");
+            //box.objのオブジェクト数は2
+            Assert.Equal(2, m.objs.Count);
+            //boxs.objの第0メッシュの頂点数は8
+            Assert.Equal(8, m.objs[0].vertices.Count);
+            //boxs.mqoの第0メッシュの面数は6
+            Assert.Equal(6, m.objs[0].faces.Count);
+            //boxs.objの第1メッシュの頂点数は8
+            Assert.Equal(8, m.objs[1].vertices.Count);
+            //boxs.mqoの第1メッシュの面数は6
+            Assert.Equal(6, m.objs[1].faces.Count);
+        }
     }
 }
