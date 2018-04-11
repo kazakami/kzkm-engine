@@ -137,6 +137,7 @@ namespace KzkmEngine
             int i = 0;
             var vertices = new List<Vertex>();
             var faces = new List<Face>();
+            string objName = "";
             while (i < sourceLinesNum)
             {
                 //コメントと改行("\")を考慮した一行を変数lineとして取り出す
@@ -163,9 +164,10 @@ namespace KzkmEngine
                         //既に面か頂点を読み込んでいるなら現状を保存して、新たにリストを用意
                         if (faces.Count != 0 || vertices.Count != 0)
                         {
-                            objs.Add(new Obj(vertices, faces));
+                            objs.Add(new Obj(vertices, faces, objName));
                             vertices = new List<Vertex>();
                             faces = new List<Face>();
+                            objName = line.Split(' ')[1];
                         }
                         break;
                     }
@@ -402,9 +404,9 @@ namespace KzkmEngine
                             }
                         }
                     }
-                    var obj = new Obj(vertices, faces);
+                    var obj = new Obj(vertices, faces, objName);
                     objs.Add(obj);
-                    System.Console.WriteLine("obj {0} Added, n verts={1}, n faces={2}", objName, vertices.Count, faces.Count);
+                    //System.Console.WriteLine("obj {0} Added, n verts={1}, n faces={2}", objName, vertices.Count, faces.Count);
                 }
                 i++;
             }
