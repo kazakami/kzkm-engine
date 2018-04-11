@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using OpenTK.Graphics.OpenGL;
 
 namespace KzkmEngine
 {
@@ -192,10 +193,11 @@ namespace KzkmEngine
                     {
                         var m = Regex.Match(line, @"\s*f\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))");
                         if (m.Success){
-                            int index1 = Convert.ToInt32(m.Groups[1].ToString());
-                            int index2 = Convert.ToInt32(m.Groups[2].ToString());
-                            int index3 = Convert.ToInt32(m.Groups[3].ToString());
-                            int index4 = Convert.ToInt32(m.Groups[4].ToString());
+                            //1インデッスクなので1引く
+                            int index1 = Convert.ToInt32(m.Groups[1].ToString()) - 1;
+                            int index2 = Convert.ToInt32(m.Groups[2].ToString()) - 1;
+                            int index3 = Convert.ToInt32(m.Groups[3].ToString()) - 1;
+                            int index4 = Convert.ToInt32(m.Groups[4].ToString()) - 1;
                             //System.Console.WriteLine("f {0}, {1}, {2}, {3}", index1, index2, index3, index4);
                             faces.Add(new Face(4, index1, index2, index3, index4, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
@@ -409,6 +411,25 @@ namespace KzkmEngine
                     //System.Console.WriteLine("obj {0} Added, n verts={1}, n faces={2}", objName, vertices.Count, faces.Count);
                 }
                 i++;
+            }
+        }
+
+        public void Render()
+        {
+            foreach (var obj in objs)
+            {
+                GL.Begin(PrimitiveType.QuadStrip);
+                foreach (var face in obj.faces)
+                {
+                    if (face.verticesNum != 4)
+                        continue;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        var vert = obj.vertices[face.vertexIndices[i]];
+                        GL.Vertex3(vert.x, vert.y, vert.z);
+                    }
+                }
+                GL.End();
             }
         }
     }
