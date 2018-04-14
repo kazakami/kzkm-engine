@@ -69,7 +69,7 @@ namespace KzkmEngine
 			{
 				this.Exit();
 			}
-			activeScene.Draw();
+			activeScene.Update();
 		}
 
 		//画面描画時に呼ばれる
@@ -83,7 +83,7 @@ namespace KzkmEngine
 			Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
 			GL.LoadMatrix(ref modelview);
 			
-			activeScene.Update();
+			activeScene.Draw();
 
 			SwapBuffers();
 		}
