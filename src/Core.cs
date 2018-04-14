@@ -11,13 +11,33 @@ namespace KzkmEngine
 
     public class Game:GameWindow
 	{
-		public WorkerManager workerManager = new WorkerManager();
 
-		public Game(int width, int height, string name)
+		//名前とシーンを紐付けて持つ
+		private Dictionary<string, Scene> scenes = new Dictionary<string, Scene>();
+		//現在有効なシーンの名前
+		private Scene activeScene = null;
+
+		public Game(int width, int height, string name, string initSceneName, Scene initScene)
 			:base(width, height, GraphicsMode.Default, name)
 		{
+			AddScene(initSceneName, initScene);
+			ChangeActiveScene(initSceneName);
 			VSync = VSyncMode.On;
 		}
+
+		//アクティブなシーンを切り替える
+		public void ChangeActiveScene(string sceneName)
+		{
+			activeScene = scenes[sceneName];
+		}
+
+		//シーンを追加する
+		public void AddScene(string sceneName, Scene scene)
+		{
+			scenes[sceneName] = scene;
+		}
+
+
 
 		//ウィンドウ生成時に呼ばれる
 		protected override void OnLoad(EventArgs e)
@@ -49,8 +69,7 @@ namespace KzkmEngine
 			{
 				this.Exit();
 			}
-
-			workerManager.Update();
+			activeScene.Draw();
 		}
 
 		//画面描画時に呼ばれる
@@ -64,7 +83,7 @@ namespace KzkmEngine
 			Matrix4 modelview = Matrix4.LookAt(Vector3.Zero, Vector3.UnitZ, Vector3.UnitY);
 			GL.LoadMatrix(ref modelview);
 			
-			workerManager.Draw();
+			activeScene.Update();
 
 			SwapBuffers();
 		}
