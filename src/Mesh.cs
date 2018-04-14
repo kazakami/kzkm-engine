@@ -136,6 +136,7 @@ namespace KzkmEngine
             }
             int sourceLinesNum = source.Count;
             int i = 0;
+            int totalVerticecNum = 0;
             var vertices = new List<Vertex>();
             var faces = new List<Face>();
             string objName = "";
@@ -165,6 +166,7 @@ namespace KzkmEngine
                         //既に面か頂点を読み込んでいるなら現状を保存して、新たにリストを用意
                         if (faces.Count != 0 || vertices.Count != 0)
                         {
+                            totalVerticecNum += vertices.Count;
                             objs.Add(new Obj(vertices, faces, objName));
                             vertices = new List<Vertex>();
                             faces = new List<Face>();
@@ -191,30 +193,57 @@ namespace KzkmEngine
                     }
                     case "f":
                     {
-                        var m = Regex.Match(line, @"\s*f\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))");
-                        if (m.Success){
+                        var m1 = Regex.Match(line, @"\s*f\s+(\d+)\s+(\d+)\s+(\d+)(?:\s+(\d+))");
+                        var m2 = Regex.Match(line, @"\s*f\s+(\d+)/(\d+)/(\d+)\s+(\d+)/(\d+)/(\d+)\s+(\d+)/(\d+)/(\d+)(?:\s+(\d+)/(\d+)/(\d+))?");
+                        if (m1.Success){
                             //1インデッスクなので1引く
-                            int index1 = Convert.ToInt32(m.Groups[1].ToString()) - 1;
-                            int index2 = Convert.ToInt32(m.Groups[2].ToString()) - 1;
-                            int index3 = Convert.ToInt32(m.Groups[3].ToString()) - 1;
-                            int index4 = Convert.ToInt32(m.Groups[4].ToString()) - 1;
+                            int index1 = Convert.ToInt32(m1.Groups[1].ToString()) - totalVerticecNum - 1;
+                            int index2 = Convert.ToInt32(m1.Groups[2].ToString()) - totalVerticecNum - 1;
+                            int index3 = Convert.ToInt32(m1.Groups[3].ToString()) - totalVerticecNum - 1;
+                            int index4 = Convert.ToInt32(m1.Groups[4].ToString()) - totalVerticecNum - 1;
                             //System.Console.WriteLine("f {0}, {1}, {2}, {3}", index1, index2, index3, index4);
                             faces.Add(new Face(4, index1, index2, index3, index4, 0, 0, 0, 0, 0, 0, 0, 0));
                         }
+                        else if (m2.Success)
+                        {
+                            //1インデッスクなので1引く
+                            int vertexIndex1 = Convert.ToInt32(m2.Groups[1].ToString()) - totalVerticecNum - 1;
+                            int vertexNormalIndex1 = Convert.ToInt32(m2.Groups[2].ToString()) - totalVerticecNum - 1;
+                            int vertexTextureIndex1 = Convert.ToInt32(m2.Groups[3].ToString()) - totalVerticecNum - 1;
+                            int vertexIndex2 = Convert.ToInt32(m2.Groups[4].ToString()) - totalVerticecNum - 1;
+                            int vertexNormalIndex2 = Convert.ToInt32(m2.Groups[5].ToString()) - totalVerticecNum - 1;
+                            int vertexTextureIndex2 = Convert.ToInt32(m2.Groups[6].ToString()) - totalVerticecNum - 1;
+                            int vertexIndex3 = Convert.ToInt32(m2.Groups[7].ToString()) - totalVerticecNum - 1;
+                            int vertexNormalIndex3 = Convert.ToInt32(m2.Groups[8].ToString()) - totalVerticecNum - 1;
+                            int vertexTextureIndex3 = Convert.ToInt32(m2.Groups[9].ToString()) - totalVerticecNum - 1;
+                            //int vertexIndex4 = Convert.ToInt32(m2.Groups[10].ToString()) - totalVerticecNum - 1;
+                            //int vertexNormalIndex4 = Convert.ToInt32(m2.Groups[11].ToString()) - totalVerticecNum - 1;
+                            //int vertexTextureIndex4 = Convert.ToInt32(m2.Groups[12].ToString()) - totalVerticecNum - 1;
+                            faces.Add(new Face(3, vertexIndex1, vertexIndex2, vertexIndex3, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+                        }
                         else
                         {
-                            System.Console.WriteLine("not match in f");
+                            System.Console.WriteLine("not match in f \"{0}\"", line);
                         }
                         break;
                     }
                     case "vn":
+                    {
+                        var m = Regex.Match(line, @"\s*vn\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?)(?:\s+(-?\d+(?:\.\d*(?:[eE][+-]\d+)?)?))?");
+                        if (m.Success)
+                        {
+
+                        }
+                        break;
+                    }
+                    case "vt":
                     {
 
                         break;
                     }
                     default:
                     {
-                        System.Console.WriteLine("Not Implemented!!");
+                        System.Console.WriteLine("{0} is not Implemented!!", line.Split(' ')[0]);
                         break;
                     }
                 }
@@ -418,18 +447,29 @@ namespace KzkmEngine
         {
             foreach (var obj in objs)
             {
-                GL.Begin(PrimitiveType.QuadStrip);
                 foreach (var face in obj.faces)
                 {
-                    if (face.verticesNum != 4)
-                        continue;
-                    for (int i = 0; i < 4; i++)
+                    if (face.verticesNum == 4)
                     {
-                        var vert = obj.vertices[face.vertexIndices[i]];
-                        GL.Vertex3(vert.x, vert.y, vert.z);
+                        GL.Begin(PrimitiveType.QuadStrip);
+                        for (int i = 0; i < 4; i++)
+                        {
+                            var vert = obj.vertices[face.vertexIndices[i]];
+                            GL.Vertex3(vert.x, vert.y, vert.z);
+                        }
+                        GL.End();
+                    }
+                    else if (face.verticesNum == 3)
+                    {
+                        GL.Begin(PrimitiveType.TriangleStrip);
+                        for (int i = 0; i < 3; i++)
+                        {
+                            var vert = obj.vertices[face.vertexIndices[i]];
+                            GL.Vertex3(vert.x, vert.y, vert.z);
+                        }
+                        GL.End();
                     }
                 }
-                GL.End();
             }
         }
     }
