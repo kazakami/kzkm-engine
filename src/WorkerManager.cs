@@ -11,11 +11,11 @@ namespace KzkmEngine
 
         private Camera camera = new Camera();
 
-        private Mesh mesh = new Mesh();
+        //private Mesh mesh = new Mesh();
 
         public WorkerManager()
         {
-            mesh.LoadFromObj("resources/ente_progress_model/ente progress_export.obj");
+            //mesh.LoadFromObj("resources/ente_progress_model/ente progress_export.obj");
         }
 
         public void Update()
@@ -38,7 +38,7 @@ namespace KzkmEngine
             GL.LoadMatrix(ref modelView);
  
             //Utility.RenderSphere(10, 10);
-            mesh.Render();
+            //mesh.Render();
 
             workers.Sort((a, b) => a.priority - b.priority);
             foreach (var worker in workers)
