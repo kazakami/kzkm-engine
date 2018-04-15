@@ -443,8 +443,10 @@ namespace KzkmEngine
             }
         }
 
-        public void Render()
+        public void Render(double x = 0, double y = 0, double z = 0)
         {
+            GL.PushMatrix();
+            GL.Translate(x, y, z);
             foreach (var obj in objs)
             {
                 foreach (var face in obj.faces)
@@ -471,6 +473,7 @@ namespace KzkmEngine
                     }
                 }
             }
+            GL.PopMatrix();
         }
     }
 }
