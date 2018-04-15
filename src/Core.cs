@@ -17,6 +17,14 @@ namespace KzkmEngine
 		//現在有効なシーンの名前
 		private Scene activeScene = null;
 
+		/// <summary>
+		/// コンストラクタ
+		/// <param name="width">ウィンドウの幅</param>
+		/// <param name="height">ウィンドウの高さ</param>
+		/// <param name="name">ウィンドウタイトル</param>
+		/// <param name="initSceneName">初期シーンに割り当てるキー</param>
+		/// <param name="initScene">初期シーン</param>
+		/// </summary>
 		public Game(int width, int height, string name, string initSceneName, Scene initScene)
 			:base(width, height, GraphicsMode.Default, name)
 		{
