@@ -33,6 +33,14 @@ namespace KzkmEngine
 			VSync = VSyncMode.On;
 		}
 
+		static public void Start(string sceneName, Scene scene)
+		{
+			using (var window = new KzkmEngine.Game(800, 600, "window name", sceneName, scene))
+            {
+                window.Run(60.0);
+            }
+		}
+
 		//アクティブなシーンを切り替える
 		public void ChangeActiveScene(string sceneName)
 		{
